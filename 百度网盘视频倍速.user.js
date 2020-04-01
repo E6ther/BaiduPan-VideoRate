@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         百度网盘视频倍速
 // @namespace    http://www.skji.net/
-// @version      1.0
+// @version      1.1
 // @description  自由调整百度网盘在线播放视频倍速
 // @author       E6ther
 // @homepage     https://github.com/E6ther/BaiduPan-VideoRate
@@ -107,6 +107,8 @@
 
     let video_main = $(".video-main");
 
+    let video_content_list;
+
     if (video_main[0]) {
         console.log("百度网盘视频倍速 - 已获取到视频");
 
@@ -118,7 +120,9 @@
 
                     videojs.getPlayers("video-player").html5player.tech_.setPlaybackRate(Rate);
                     clearInterval(myVar);
-                    console.log("百度网盘视频倍速 - 调整倍速成功")
+                    console.log("百度网盘视频倍速 - 调整倍速成功");
+
+                    video_content_list = $(".video-list-thumbnail");
 
                     playRateControl();
                 }
@@ -207,6 +211,18 @@
                 ContolShow();
             }, function () {
                 ContolHide();
+            });
+
+            video_content_list.click(function () {
+                let flag = false;
+                let myVar2 = setInterval(function () {
+                    if (videojs.getPlayers("video-player").html5player && flag) {
+                        ChangeRate();
+                    } else {
+                        flag = true;
+                    }
+                }, 100);
+                console.log("百度网盘视频倍速 - 调整倍速成功");
             });
         };
 
